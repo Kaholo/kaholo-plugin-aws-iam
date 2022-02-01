@@ -1,6 +1,7 @@
 const { getClient,
     getAwsCallback,
     getAwsUpdateParams,
+    getAwsKeyParams,
     getUsernameParam} = require("./helpers")
 
 async function deleteAccessKey(action,settings) {
@@ -54,10 +55,27 @@ async function listAccessKeys(action,settings) {
     });
 }
 
+async function listUsers(action,settings) {
+    const client = getClient(action, settings);
+    return new Promise((resolve, reject) => {
+        client.listUsers(params = {}, getAwsCallback(resolve, reject));
+    });
+}
+
+async function getAccessKeyLastUsed(action,settings) {
+    const params = getAwsKeyParams(action.params, "accessKeyId");
+    const client = getClient(action, settings);
+    return new Promise((resolve, reject) => {
+        client.getAccessKeyLastUsed(params, getAwsCallback(resolve, reject));
+    });
+}
+
 module.exports = {
     deleteAccessKey,
     deleteUser,
     updateAccessKey,
     updateSSHPublicKey,
-    listAccessKeys
+    listAccessKeys,
+    listUsers,
+    getAccessKeyLastUsed
 };

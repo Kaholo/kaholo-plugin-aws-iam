@@ -49,3 +49,19 @@ Returns information about the access key IDs associated with the specified IAM u
 1. Auth Access Key ID (Vault) **Optional**
 2. Secret Access Key (Vault) **Optional**
 3. User name (String) **Required**  - The user name of the user to get info of his access keys.
+
+
+## Method: List Users
+Returns the lists all IAM users. For more info, see the AWS [documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/IAM.html#listUsers-property).
+
+### Parameters: None
+1. Auth Access Key ID (Vault) **Optional**
+2. Secret Access Key (Vault) **Optional**
+
+## Method: Last Used Access Key
+Returns information about the specified access key was last used by specified IAM user. For more info, see the AWS [documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/IAM.html#getAccessKeyLastUsed-property).
+
+### Parameters:
+1. Auth Access Key ID (Vault) **Optional**
+2. Secret Access Key (Vault) **Optional**
+3. Access Key ID (String) **Required** - The ID of the access key to get last usage.

@@ -28,6 +28,15 @@ function getAwsUpdateParams(params, keyIdParam, paramName){
     return awsParams;
 }
 
+function getAwsKeyParams(params, keyIdParam){
+    const keyId = (params[keyIdParam] || "").trim();
+
+    if (keyId  === "" ){
+        throw "Not given one of required fields";
+    }
+    return { AccessKeyId: keyId };
+}
+
 function getUsernameParam(params){
     const userName = (params.userName || "").trim();
 
@@ -41,5 +50,6 @@ module.exports = {
     getClient,
     getAwsCallback,
     getAwsUpdateParams,
+    getAwsKeyParams,
     getUsernameParam
 };
