@@ -1,4 +1,5 @@
 const aws = require("aws-sdk");
+const { parsers } = require("kaholo-aws-plugin");
 
 function getClient(action, settings) {
   const options = {
@@ -37,9 +38,60 @@ function getUsernameParam(params) {
   return { UserName: userName };
 }
 
+function getPathPrefixParam(params) {
+  const pathPrefix = (params.pathPrefix || "").trim();
+
+  if (!pathPrefix) {
+    throw new Error("Not given pathprefix");
+  }
+  return { PathPrefix: pathPrefix };
+}
+
+function getRoleNameWithRolePolicyParam(params) {
+  const isTempRole = parsers.boolean(params.isTempRole);
+  const expiryDays = parsers.number(params.expiryDayCount);
+  const currentDate = new Date();
+  const expireDate = new Date();
+
+  let expirationDate = 0;
+  if (isTempRole && expiryDays > 0) {
+    // original-working  you can comment this for demo and uncomment next line.
+    expireDate.setDate(currentDate.getDate() + expiryDays);
+    // expireDate.setMinutes(currentDate.getMinutes() + expiryDays);
+    expirationDate = Date.parse(expireDate);
+  }
+  const myPolicy = {
+    Version: "2012-10-17",
+    Statement: [
+      {
+        Effect: "Allow",
+        Principal: {
+          Service: "s3.amazonaws.com",
+        },
+        Action: "sts:AssumeRole",
+      },
+    ],
+  };
+  const awsparams = {
+    AssumeRolePolicyDocument: JSON.stringify(myPolicy),
+    RoleName: params.RoleName,
+    Tags: [{
+      Key: "Kaholo_Created_At",
+      Value: Date.parse(currentDate).toString(),
+    }, {
+      Key: "Kaholo_Expire_At",
+      Value: expirationDate.toString(),
+    }],
+  };
+
+  return awsparams;
+}
+
 module.exports = {
   getClient,
   getAwsCallback,
   getAwsUpdateParams,
   getUsernameParam,
+  getPathPrefixParam,
+  getRoleNameWithRolePolicyParam,
 };
