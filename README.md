@@ -49,3 +49,46 @@ Returns information about the access key IDs associated with the specified IAM u
 1. Auth Access Key ID (Vault) **Optional**
 2. Secret Access Key (Vault) **Optional**
 3. User name (String) **Required**  - The user name of the user to get info of his access keys.
+
+## Method: List Roles
+Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more info, see the AWS [documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
+
+### Parameters:
+1. Auth Access Key ID (Vault) **Optional**
+2. Secret Access Key (Vault) **Optional**
+3. Path Prefix (String) **Optional**  - The path prefix for filtering the results.
+
+## Method: Create Role
+Creates a new role for your Amazon Web Services account. For more information about roles. For more info, see the AWS [documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
+
+### Parameters:
+1. Auth Access Key ID (Vault) **Optional**
+2. Secret Access Key (Vault) **Optional**
+3. Role Name Prefix (String) **required**  - The name of the role to create. 
+4. Is TempRole (Bool) **required** - If set true, method will create specified role name as a temp role. Othwerwise, if will normal role.
+5. Expiry Day Count (Number) **required *** - Expiry day count for temp role. Count value will add from role created day.
+
+## Method: Delete Expired Role
+Deletes the expired role based on if role is setted as Temp Role and expired based on Expiry Day Count. For more information about roles. For more info, see the AWS [documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
+
+### Parameters:
+1. Auth Access Key ID (Vault) **Optional**
+2. Secret Access Key (Vault) **Optional**
+3. Role Name Prefix (String) **required**  - The name of the role to delete. 
+
+## Method: Delete Role
+Deletes the specified role.  For more information about roles. For more info, see the AWS [documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
+
+### Parameters:
+1. Auth Access Key ID (Vault) **Optional**
+2. Secret Access Key (Vault) **Optional**
+3. Role Name Prefix (String) **required**  - The name of the role to delete. 
+
+
+## Method: Get Role
+Retrieves information about the specified role, including the role’s path, GUID, ARN, and the role’s trust policy that grants permission to assume the role. For more info, see the AWS [documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
+
+### Parameters:
+1. Auth Access Key ID (Vault) **Optional**
+2. Secret Access Key (Vault) **Optional**
+3. Role Name Prefix (String) **required**  - The name of the role to query. 
