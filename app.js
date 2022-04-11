@@ -2,7 +2,6 @@ const {
   getClient,
   getAwsCallback,
   getAwsUpdateParams,
-  getAwsKeyParams,
   getUsernameParam,
 } = require("./helpers");
 
@@ -65,7 +64,7 @@ async function listUsers(action, settings) {
 }
 
 async function getAccessKeyLastUsed(action, settings) {
-  const params = getAwsKeyParams(action.params, "accessKeyId");
+  const params = { AccessKeyId: action.params.accessKeyId };
   const client = getClient(action, settings);
   return new Promise((resolve, reject) => {
     client.getAccessKeyLastUsed(params, getAwsCallback(resolve, reject));
