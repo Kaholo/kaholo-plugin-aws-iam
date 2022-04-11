@@ -5,7 +5,7 @@ const {
   getUsernameParam,
 } = require("./helpers");
 
-async function deleteAccessKey(action, settings) {
+function deleteAccessKey(action, settings) {
   const accessKeyId = (action.params.ACCESS_KEY_ID || "").trim();
   const userName = (action.params.USER_NAME || "").trim();
 
@@ -24,7 +24,7 @@ async function deleteAccessKey(action, settings) {
   });
 }
 
-async function deleteUser(action, settings) {
+function deleteUser(action, settings) {
   const params = getUsernameParam(action.params);
   const client = getClient(action, settings);
   return new Promise((resolve, reject) => {
@@ -32,7 +32,7 @@ async function deleteUser(action, settings) {
   });
 }
 
-async function updateAccessKey(action, settings) {
+function updateAccessKey(action, settings) {
   const params = getAwsUpdateParams(action.params, "accessKeyId", "AccessKeyId");
   const client = getClient(action, settings);
   return new Promise((resolve, reject) => {
@@ -40,7 +40,7 @@ async function updateAccessKey(action, settings) {
   });
 }
 
-async function updateSSHPublicKey(action, settings) {
+function updateSSHPublicKey(action, settings) {
   const params = getAwsUpdateParams(action.params, "sshId", "SSHPublicKeyId");
   const client = getClient(action, settings);
   return new Promise((resolve, reject) => {
@@ -48,7 +48,7 @@ async function updateSSHPublicKey(action, settings) {
   });
 }
 
-async function listAccessKeys(action, settings) {
+function listAccessKeys(action, settings) {
   const params = getUsernameParam(action.params);
   const client = getClient(action, settings);
   return new Promise((resolve, reject) => {
@@ -56,14 +56,14 @@ async function listAccessKeys(action, settings) {
   });
 }
 
-async function listUsers(action, settings) {
+function listUsers(action, settings) {
   const client = getClient(action, settings);
   return new Promise((resolve, reject) => {
     client.listUsers({}, getAwsCallback(resolve, reject));
   });
 }
 
-async function getAccessKeyLastUsed(action, settings) {
+function getAccessKeyLastUsed(action, settings) {
   const params = { AccessKeyId: action.params.accessKeyId };
   const client = getClient(action, settings);
   return new Promise((resolve, reject) => {
