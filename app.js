@@ -3,7 +3,17 @@ const {
   getAwsCallback,
   getAwsUpdateParams,
   getUsernameParam,
+  getPathPrefixParam,
+  getRoleNameWithRolePolicyParam,
 } = require("./helpers");
+
+function createRole(action, settings) {
+  const params = getRoleNameWithRolePolicyParam(action.params);
+  const client = getClient(action, settings);
+  return new Promise((resolve, reject) => {
+    client.createRole(params, getAwsCallback(resolve, reject));
+  });
+}
 
 function deleteAccessKey(action, settings) {
   const accessKeyId = (action.params.ACCESS_KEY_ID || "").trim();
@@ -32,6 +42,45 @@ function deleteUser(action, settings) {
   });
 }
 
+async function deleteExpiredRole(action, settings) {
+  const payload = { RoleName: action.params.roleName };
+  const client = getClient(action, settings);
+  const roleData = await getRole(action, settings);
+
+  let expiryTag = null;
+  if (roleData && roleData.Role && roleData.Role.Tags && Array.isArray(roleData.Role.Tags)) {
+    expiryTag = roleData.Role.Tags.find((tag) => tag.Key === "Kaholo_Expire_At");
+  }
+
+  if (!expiryTag) {
+    return Promise.resolve();
+  }
+
+  const currentDate = new Date();
+  const tagExpiryDate = new Date(Math.floor(expiryTag.Value));
+  if (currentDate < tagExpiryDate) {
+    return Promise.resolve();
+  }
+
+  return client.deleteRole(payload).promise();
+}
+
+function deleteRole(action, settings) {
+  const payload = { RoleName: action.params.roleName };
+  const client = getClient(action, settings);
+  return new Promise((resolve, reject) => {
+    client.deleteRole(payload, getAwsCallback(resolve, reject));
+  });
+}
+
+function getRole(action, settings) {
+  const payload = { RoleName: action.params.roleName };
+  const client = getClient(action, settings);
+  return new Promise((resolve, reject) => {
+    client.getRole(payload, getAwsCallback(resolve, reject));
+  });
+}
+
 function updateAccessKey(action, settings) {
   const params = getAwsUpdateParams(action.params, "accessKeyId", "AccessKeyId");
   const client = getClient(action, settings);
@@ -56,6 +105,14 @@ function listAccessKeys(action, settings) {
   });
 }
 
+function listRoles(action, settings) {
+  const params = getPathPrefixParam(action.params);
+  const client = getClient(action, settings);
+  return new Promise((resolve, reject) => {
+    client.listRoles(params, getAwsCallback(resolve, reject));
+  });
+}
+
 function listUsers(action, settings) {
   const client = getClient(action, settings);
   return new Promise((resolve, reject) => {
@@ -72,11 +129,16 @@ function getAccessKeyLastUsed(action, settings) {
 }
 
 module.exports = {
+  createRole,
   deleteAccessKey,
   deleteUser,
+  deleteExpiredRole,
+  deleteRole,
+  getRole,
   updateAccessKey,
   updateSSHPublicKey,
   listAccessKeys,
+  listRoles,
   listUsers,
   getAccessKeyLastUsed,
 };
