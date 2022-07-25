@@ -11,8 +11,8 @@
   "author": "Kaholo Team",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.1111.0",
-    "kaholo-aws-plugin": "github:Kaholo/aws-plugin-library#1.0.0"
+    "@kaholo/aws-plugin-library": "^2.0.0",
+    "aws-sdk": "^2.1111.0"
   },
   "devDependencies": {
     "eslint": "8.13.0",
