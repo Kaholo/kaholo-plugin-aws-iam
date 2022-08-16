@@ -1,5 +1,5 @@
 const aws = require("aws-sdk");
-const { parsers } = require("kaholo-aws-plugin");
+const { parsers } = require("@kaholo/aws-plugin-library");
 
 function getClient(action, settings) {
   const options = {
