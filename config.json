@@ -52,14 +52,20 @@
       "viewName": "Delete Access Key",
       "params": [
         {
-          "name": "targetAccessKeyId",
-          "viewName": "Access key Id",
-          "type": "string"
-        },
-        {
           "name": "userName",
           "viewName": "User Name",
-          "type": "string"
+          "description": "The name of the user who owns the key",
+          "type": "string",
+          "required": true,
+          "placeholder": "awsuser"
+        },
+        {
+          "name": "targetAccessKeyId",
+          "viewName": "Access Key ID",
+          "description": "The ID of the key to DELETE",
+          "type": "string",
+          "required": true,
+          "placeholder": "AKIAIOSFODNN7EXAMPLE"
         }
       ]
     },
@@ -70,28 +76,39 @@
         {
           "name": "userName",
           "viewName": "User Name",
-          "type": "string"
+          "description": "The name of the user to DELETE",
+          "type": "string",
+          "required": true,
+          "placeholder": "awsuser"
         }
       ]
     },
     {
       "name": "updateAccessKey",
-      "viewName": "Update Access Key",
+      "viewName": "Activate/Deactivate Access Key",
       "params": [
         {
           "name": "userName",
           "viewName": "User Name",
-          "type": "string"
+          "description": "The name of the user who owns the key",
+          "type": "string",
+          "required": true,
+          "placeholder": "awsuser"
         },
         {
           "name": "targetAccessKeyId",
-          "viewName": "Access key Id",
-          "type": "string"
+          "viewName": "Access Key ID",
+          "description": "The ID of the access key to activate or deactivate",
+          "type": "string",
+          "required": true,
+          "placeholder": "AKIAIOSFODNN7EXAMPLE"
         },
         {
           "name": "status",
-          "viewName": "Status",
+          "viewName": "Status To Set",
           "type": "options",
+          "default": "Inactive",
+          "placeholder": "Please select one",
           "options": [
             {
               "id":"Active",
@@ -107,22 +124,30 @@
     },
     {
       "name": "updateSSHPublicKey",
-      "viewName": "Update SSH Public Key",
+      "viewName": "Activate/Deactivate SSH Public Key",
       "params": [
         {
           "name": "userName",
           "viewName": "User Name",
-          "type": "string"
+          "description": "The name of the user who owns the SSH key",
+          "type": "string",
+          "required": true,
+          "placeholder": "awsuser"
         },
         {
           "name": "sshId",
           "viewName": "SSH Public Key ID",
-          "type": "string"
+          "description": "The ID of the SSH key to activate or deactivate",
+          "type": "string",
+          "required": true,
+          "placeholder": "APKA3LQJ67DUZEXAMPLE"
         },
         {
           "name": "status",
-          "viewName": "Status",
+          "viewName": "Status To Set",
           "type": "options",
+          "default": "Inactive",
+          "placeholder": "Please select one",
           "options": [
             {
               "id":"Active",
@@ -143,7 +168,10 @@
         {
           "name": "userName",
           "viewName": "User Name",
-          "type": "string"
+          "description": "The name of the user whose access keys will be listed",
+          "type": "string",
+          "required": true,
+          "placeholder": "awsuser"
         }
       ]
     },
@@ -154,13 +182,15 @@
     },
     {
       "name": "getAccessKeyLastUsed",
-      "viewName": "Last Used Access Key",
+      "viewName": "Get Access Key Last Used Time",
       "params": [
         {
           "name": "targetAccessKeyId",
-          "viewName": "Access key Id",
+          "viewName": "Access Key ID",
+          "description": "The ID of the key for which to get last used time",
           "type": "string",
-          "required": true
+          "required": true,
+          "placeholder": "AKIAIOSFODNN7EXAMPLE"
         }
       ]
     }
