@@ -1,12 +1,28 @@
 {
   "name": "Amazon-aws-iam",
+  "viewName": "AWS IAM",
   "type": "executer",
   "imgUrl": "logo.png",
   "execProgram": "node",
   "main": "app.js",
   "version": "1.1.3",
-  "description":"Integration with AWS IAM Service",
-  "category": ["CLOUD", "ACCESS MGMT"],
+  "description":"Amazon Identity and Access Management - control access to AWS resources",
+  "category": "Cloud Management",
+  "keywords": [
+    "aws",
+    "amazon",
+    "identity",
+    "iam",
+    "access keys",
+    "keys",
+    "secret keys",
+    "ssh keys",
+    "users",
+    "account",
+    "activate",
+    "deactivate",
+    "security"
+  ],
   "settings":[
     {
       "name":"AWS_ACCESS_KEY_ID",
