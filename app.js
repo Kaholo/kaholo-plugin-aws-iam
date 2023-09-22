@@ -16,8 +16,8 @@ function createRole(action, settings) {
 }
 
 function deleteAccessKey(action, settings) {
-  const targetAccessKeyId = (action.params.ACCESS_KEY_ID || "").trim();
-  const userName = (action.params.USER_NAME || "").trim();
+  const targetAccessKeyId = (action.params.targetAccessKeyId || "").trim();
+  const userName = (action.params.userName || "").trim();
 
   if (!targetAccessKeyId || !userName) {
     throw new Error("Not given one of required fields");

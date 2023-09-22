@@ -23,16 +23,37 @@
     "deactivate",
     "security"
   ],
-  "settings":[
+  "auth": {
+    "authId": "awsAccount",
+    "params": [
+      {
+        "name": "accessKeyId",
+        "viewName": "Access Key ID",
+        "type": "vault",
+        "required": true,
+        "description": "AWS Access Key ID to use for authentication",
+        "placeholder": "AKIAIOSFODNN7EXAMPLE",
+        "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+      },
+      {
+        "name": "secretAccessKey",
+        "viewName": "Secret Access Key",
+        "type": "vault",
+        "required": true,
+        "description": "AWS Secret Access Key to use for authentication",
+        "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+        "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+      }
+    ]
+  },
+  "settings": [
     {
-      "name":"AWS_ACCESS_KEY_ID",
-      "viewName": "Access key ID",
-      "type": "vault"
-    },
-    {
-      "name": "AWS_SECRET_ACCESS_KEY",
-      "viewName": "Secret Access key",
-      "type": "vault"
+      "name": "region",
+      "viewName": "Default AWS Region",
+      "type": "string",
+      "description": "AWS Region to use by default",
+      "placeholder": "us-west-1",
+      "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints"
     }
   ],
   "methods": [
@@ -41,22 +62,12 @@
       "viewName": "Delete Access Key",
       "params": [
         {
-          "name": "AWS_ACCESS_KEY_ID",
-          "viewName": "Auth Access Key ID",
-          "type": "vault"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "viewName": "Secret Access key",
-          "type": "vault"
-        },
-        {
-          "name": "ACCESS_KEY_ID",
+          "name": "targetAccessKeyId",
           "viewName": "Access key Id",
           "type": "string"
         },
         {
-          "name": "USER_NAME",
+          "name": "userName",
           "viewName": "User Name",
           "type": "string"
         }
@@ -66,16 +77,6 @@
       "name": "deleteUser",
       "viewName": "Delete User",
       "params": [
-        {
-          "name": "AWS_ACCESS_KEY_ID",
-          "viewName": "Access Key ID",
-          "type": "vault"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "viewName": "Secret Access Key",
-          "type": "vault"
-        },
         {
           "name": "userName",
           "viewName": "User Name",
@@ -87,16 +88,6 @@
       "name": "updateAccessKey",
       "viewName": "Update Access Key",
       "params": [
-        {
-          "name": "AWS_ACCESS_KEY_ID",
-          "viewName": "Auth Access key ID",
-          "type": "vault"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "viewName": "Secret Access Key",
-          "type": "vault"
-        },
         {
           "name": "userName",
           "viewName": "User Name",
@@ -129,16 +120,6 @@
       "viewName": "Update SSH Public Key",
       "params": [
         {
-          "name": "AWS_ACCESS_KEY_ID",
-          "viewName": "Access Key ID",
-          "type": "vault"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "viewName": "Secret Access Key",
-          "type": "vault"
-        },
-        {
           "name": "userName",
           "viewName": "User Name",
           "type": "string"
@@ -170,16 +151,6 @@
       "viewName": "List Access Keys",
       "params": [
         {
-          "name": "AWS_ACCESS_KEY_ID",
-          "viewName": "Access Key ID",
-          "type": "vault"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "viewName": "Secret Access Key",
-          "type": "vault"
-        },
-        {
           "name": "userName",
           "viewName": "User Name",
           "type": "string"
@@ -189,33 +160,12 @@
     {
       "name": "listUsers",
       "viewName": "List Users",
-      "params": [
-        {
-          "name": "AWS_ACCESS_KEY_ID",
-          "viewName": "Access Key ID",
-          "type": "vault"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "viewName": "Secret Access Key",
-          "type": "vault"
-        }
-      ]
+      "params": []
     },
     {
       "name": "getAccessKeyLastUsed",
       "viewName": "Last Used Access Key",
       "params": [
-        {
-          "name": "AWS_ACCESS_KEY_ID",
-          "viewName": "Access Key ID",
-          "type": "vault"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "viewName": "Secret Access Key",
-          "type": "vault"
-        },
         {
           "name": "targetAccessKeyId",
           "viewName": "Access key Id",

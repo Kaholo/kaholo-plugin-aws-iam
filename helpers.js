@@ -3,8 +3,8 @@ const { parsers } = require("@kaholo/aws-plugin-library");
 
 function getClient(action, settings) {
   const options = {
-    accessKeyId: action.params.AWS_ACCESS_KEY_ID || settings.AWS_ACCESS_KEY_ID,
-    secretAccessKey: action.params.AWS_SECRET_ACCESS_KEY || settings.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: action.params.accessKeyId,
+    secretAccessKey: action.params.secretAccessKey,
   };
   return new aws.IAM(options);
 }
