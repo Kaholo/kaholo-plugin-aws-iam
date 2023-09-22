@@ -16,16 +16,16 @@ function createRole(action, settings) {
 }
 
 function deleteAccessKey(action, settings) {
-  const accessKeyId = (action.params.ACCESS_KEY_ID || "").trim();
+  const targetAccessKeyId = (action.params.ACCESS_KEY_ID || "").trim();
   const userName = (action.params.USER_NAME || "").trim();
 
-  if (!accessKeyId || !userName) {
+  if (!targetAccessKeyId || !userName) {
     throw new Error("Not given one of required fields");
   }
 
   const params = {
     UserName: userName,
-    AccessKeyId: accessKeyId,
+    AccessKeyId: targetAccessKeyId,
   };
 
   const client = getClient(action, settings);
@@ -82,7 +82,7 @@ function getRole(action, settings) {
 }
 
 function updateAccessKey(action, settings) {
-  const params = getAwsUpdateParams(action.params, "accessKeyId", "AccessKeyId");
+  const params = getAwsUpdateParams(action.params, "targetAccessKeyId", "AccessKeyId");
   const client = getClient(action, settings);
   return new Promise((resolve, reject) => {
     client.updateAccessKey(params, getAwsCallback(resolve, reject));
@@ -121,7 +121,7 @@ function listUsers(action, settings) {
 }
 
 function getAccessKeyLastUsed(action, settings) {
-  const params = { AccessKeyId: action.params.accessKeyId };
+  const params = { AccessKeyId: action.params.targetAccessKeyId };
   const client = getClient(action, settings);
   return new Promise((resolve, reject) => {
     client.getAccessKeyLastUsed(params, getAwsCallback(resolve, reject));

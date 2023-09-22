@@ -103,7 +103,7 @@
           "type": "string"
         },
         {
-          "name": "accessKeyId",
+          "name": "targetAccessKeyId",
           "viewName": "Access key Id",
           "type": "string"
         },
@@ -217,7 +217,7 @@
           "type": "vault"
         },
         {
-          "name": "accessKeyId",
+          "name": "targetAccessKeyId",
           "viewName": "Access key Id",
           "type": "string",
           "required": true
