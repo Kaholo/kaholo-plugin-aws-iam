@@ -1,7 +1,7 @@
 const aws = require("aws-sdk");
 const { parsers } = require("@kaholo/aws-plugin-library");
 
-function getClient(action, settings) {
+function getClient(action) {
   const options = {
     accessKeyId: action.params.accessKeyId,
     secretAccessKey: action.params.secretAccessKey,

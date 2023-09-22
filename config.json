@@ -46,16 +46,6 @@
       }
     ]
   },
-  "settings": [
-    {
-      "name": "region",
-      "viewName": "Default AWS Region",
-      "type": "string",
-      "description": "AWS Region to use by default",
-      "placeholder": "us-west-1",
-      "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints"
-    }
-  ],
   "methods": [
     {
       "name": "deleteAccessKey",
