@@ -1,109 +1,70 @@
-# kaholo-plugin-amazon-iam
-Amazon IAM Plugin for Kaholo. This plugin is used to integrate with AWS IAM according to this [documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/IAM.html).
+## Access and Authentication
+AWS uses two parameters for access and authentication, these are stored in the Kaholo Vault and configured via a Kaholo Account.
+* Access Key ID, e.g. `AKIA3LQJ67DU53G3DNEW`
+* Access Key Secret, e.g. `Hw8Il3qOGpOflIbCaMb0SxLAB2zk4naTBKiybsNx`
 
-## Settings
-1. Access Key ID (Vault) **Optional** - Access key ID of the default IAM user to do the actions with.
-2. Secret Access Key (Vault) **Optional** - Secret access key of the default IAM user to do the actions with.
+Only the Access Key Secret is a genuine secret that should be guarded carefully to avoid abuse of your account. For security purposes the Kaholo plugin stores both the Access Key ID and the Secret Access Key in the Kaholo vault. This allows them to be used widely without ever appearing in configuration, logs, or output.
+
+The Access Key ID and Secret Access Key are a matched set of credentials that will work in any Region, subject to the security configuration of the user account to which these keys belong.
+
+To add these values to Kaholo Vault items, click on "Settings" in the left panel and then the lock-shaped "Vault" icon. Button "Add Item" is on the top right.
+
+To create a Kaholo Account, click on "Settings" in the left panel and then the name of the plugin "AWS IAM", which is a blue hyperlink. Accounts are on the 2nd tab, next to plugin settings. If you have already configured an account for another AWS plugin the same account may be used with AWS IAM. An account can also be configured while attempting to use an AWS IAM action in a pipeline. Once a method is selected, the "Account" parameter appears. In the drop-down for this parameter find "Add New Plugin Account".
+
+## Plugin Installation
+For download, installation, upgrade, downgrade and troubleshooting of plugins in general, see [INSTALL.md](./INSTALL.md).
 
 ## Method: Delete Access Key
-This method will remove access key from a specified user. For more info, see the AWS [documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/IAM.html#deleteAccessKey-property).
+Permanently deletes an AWS Access Key, rending the credentials forever useless. To temporarily disable an access key instead, consider method Activate/Deactivate Access Key.
 
-### Parameters:
-1. Auth Access Key ID (Vault) **Optional**
-2. Secret Access Key (Vault) **Optional**
-3. Access Key ID (String) **Required** - The ID of the access key to delete.
-4. User name (String) **Required**  - The user name the access key to delete belongs to. If not specified, the username will be determined implicitly based on the Auth access key ID.
+### Parameter: User Name
+The AWS username of the IAM user account. When selecting "Users" from the Identity and Access Management (IAM) web console, this is name listed under the "User name" column.
+
+### Parameter: Access Key ID
+The ID of the Access Key to delete. This is an all-caps string found in the Identity and Access Management (IAM) web console under Users | User name on the "Security Credentials" tab, in the "Access keys" section. For example 'AKIA3LQJ32ZAPTC4TPP5'.
 
 ## Method: Delete User
-Deletes the specified IAM user. Unlike the AWS Management Console, when you delete a user programmatically, you must delete the items attached to the user manually, or the deletion fails. For more info, see the AWS [documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/IAM.html#deleteUser-property).
+Permanently deletes a user account from IAM. For this to succeed the user must first be removed from all IAM groups.
 
-### Parameters:
-1. Access Key ID (Vault) **Optional**
-2. Secret Access Key (Vault) **Optional**
-3. User name (String) **Required**  - The user name of the user to delete.
+### Parameter: User Name
+The AWS username of the IAM user account. When selecting "Users" from the Identity and Access Management (IAM) web console, this is name listed under the "User name" column.
 
-## Method: Update Access Key
-Changes the status of the specified access key from Active to Inactive, or vice versa. For more info, see the AWS [documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/IAM.html#updateAccessKey-property).
+## Method: Activate/Deactivate Access Key
+Temporarily Activates or deactivates an AWS Access Key. Keys can be activated or deactivated any number of times. To permanently destroy keys, consider method "Delete Access Key" instead.
 
-### Parameters:
-1. Auth Access Key ID (Vault) **Optional**
-2. Secret Access Key (Vault) **Optional**
-3. Access Key ID (String) **Required** - The ID of the access key to update.
-4. User name (String) **Required**  - The username the access key to update belongs to. If not specified, the username will be determined implicitly based on the Auth access key ID.
-5. Status (Active/Inactive) **Required**  - The new status of the access key.
+### Parameter: User Name
+The AWS username of the IAM user account. When selecting "Users" from the Identity and Access Management (IAM) web console, this is name listed under the "User name" column.
 
-## Method: Update SSH Public Key
-Sets the status of an IAM user's SSH public key to active or inactive. SSH public keys that are inactive cannot be used for authentication. This operation can be used to disable a user's SSH public key as part of a key rotation work flow. For more info, see the AWS [documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/IAM.html#updateSSHPublicKey-property).
+### Parameter: Access Key ID
+The ID of the Access Key to activate or deactivate. This is an all-caps string found in the Identity and Access Management (IAM) web console under Users | User name on the "Security Credentials" tab, in the "Access keys" section. For example 'AKIA3LQJ32ZAPTC4TPP5'.
 
-### Parameters:
-1. Access Key ID (Vault) **Optional**
-2. Secret Access Key (Vault) **Optional**
-3. SSH Public Key ID (String) **Required** - The ID of the SSH public key to update. 
-4. User name (String) **Required**  - The username the access key to delete belongs to. If not specified the username will be determined implicitly based on the access key ID.
-5. Status (Active/Inactive) **Required**  - The new status of the SSH public key.
+### Parameter: Status To Set
+Choose either "Activate" or "Deactivate" from the drop-down list. If the key happens to already be in the selected state, the action succeeds without any change made.
+
+## Method: Activate/Deactivate SSH Public Key
+Temporarily Activates or deactivates an SSH Public Key. Keys can be activated or deactivated any number of times.
+
+### Parameter: User Name
+The AWS username of the IAM user account. When selecting "Users" from the Identity and Access Management (IAM) web console, this is name listed under the "User name" column.
+
+### Parameter: SSH Public Key ID
+The ID of the SSH Public Key to activate or deactivate. This is an all-caps string found in the Identity and Access Management (IAM) web console under Users | User name on the "Security Credentials" tab, in the "SSH public keys for AWS CodeCommit" section. For example 'APKA3LQQJ32UZR5WHL7H'.
+
+### Parameter: Status To Set
+Choose either "Activate" or "Deactivate" from the drop-down list. If the key happens to already be in the selected state, the action succeeds without any change made.
 
 ## Method: List Access Keys
-Returns information about the access key IDs associated with the specified IAM user. For more info, see the AWS [documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/IAM.html#listAccessKeys-property).
+Lists all access keys for the specified user.
 
-### Parameters:
-1. Auth Access Key ID (Vault) **Optional**
-2. Secret Access Key (Vault) **Optional**
-3. User name (String) **Required**  - The user name of the user to get info of his access keys.
-
-## Method: List Roles
-Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more info, see the AWS [documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
-
-### Parameters:
-1. Auth Access Key ID (Vault) **Optional**
-2. Secret Access Key (Vault) **Optional**
-3. Path Prefix (String) **Optional**  - The path prefix for filtering the results.
-
-## Method: Create Role
-Creates a new role for your Amazon Web Services account. For more information about roles. For more info, see the AWS [documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
-
-### Parameters:
-1. Auth Access Key ID (Vault) **Optional**
-2. Secret Access Key (Vault) **Optional**
-3. Role Name Prefix (String) **required**  - The name of the role to create. 
-4. Is TempRole (Bool) **required** - If set true, method will create specified role name as a temp role. Otherwise, if will normal role.
-5. Expiry Day Count (Number) **required *** - Expiry day count for temp role. Count value will add from role created day.
-
-## Method: Delete Expired Role
-Deletes the expired role based on if role is setted as Temp Role and expired based on Expiry Day Count. For more information about roles. For more info, see the AWS [documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
-
-### Parameters:
-1. Auth Access Key ID (Vault) **Optional**
-2. Secret Access Key (Vault) **Optional**
-3. Role Name Prefix (String) **required**  - The name of the role to delete. 
-
-## Method: Delete Role
-Deletes the specified role.  For more information about roles. For more info, see the AWS [documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
-
-### Parameters:
-1. Auth Access Key ID (Vault) **Optional**
-2. Secret Access Key (Vault) **Optional**
-3. Role Name Prefix (String) **required**  - The name of the role to delete. 
-
-
-## Method: Get Role
-Retrieves information about the specified role, including the role’s path, GUID, ARN, and the role’s trust policy that grants permission to assume the role. For more info, see the AWS [documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
-
-### Parameters:
-1. Auth Access Key ID (Vault) **Optional**
-2. Secret Access Key (Vault) **Optional**
-3. Role Name Prefix (String) **required**  - The name of the role to query. 
+### Parameter: User Name
+The AWS username of the IAM user account. When selecting "Users" from the Identity and Access Management (IAM) web console, this is name listed under the "User name" column.
 
 ## Method: List Users
-Returns the lists all IAM users. For more info, see the AWS [documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/IAM.html#listUsers-property).
+List all IAM users accounts. There are no parameters for this method.
 
-### Parameters: None
-1. Auth Access Key ID (Vault) **Optional**
-2. Secret Access Key (Vault) **Optional**
+## Method: Get Access Key Last Used Time
+Queries the last time the specified access key was used, including the service and region that was accessed. This is most commonly used to test if a suspected abandoned/orphaned/unused key is being used for anything prior to deleting it. It can also help determine if a key is being used for a purpose other than the intended ones.
 
-## Method: Last Used Access Key
-Returns information about the specified access key was last used by specified IAM user. For more info, see the AWS [documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/IAM.html#getAccessKeyLastUsed-property).
+### Parameter: Access Key ID
+The ID of the Access Key to find last use time. This is an all-caps string found in the Identity and Access Management (IAM) web console under Users | User name on the "Security Credentials" tab, in the "Access keys" section. For example 'AKIA3LQJ32ZAPTC4TPP5'.
 
-### Parameters:
-1. Auth Access Key ID (Vault) **Optional**
-2. Secret Access Key (Vault) **Optional**
-3. Access Key ID (String) **Required** - The ID of the access key to get last usage.
