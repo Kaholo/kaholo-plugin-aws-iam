@@ -6,7 +6,7 @@
   "execProgram": "node",
   "main": "app.js",
   "version": "1.1.3",
-  "description":"Amazon Identity and Access Management - control access to AWS resources",
+  "description":"Amazon Identity and Access Mgmt - control access to AWS resources",
   "category": "Cloud Management",
   "keywords": [
     "aws",
