@@ -7,45 +7,45 @@ const {
   getRoleNameWithRolePolicyParam,
 } = require("./helpers");
 
-function createRole(action, settings) {
+function createRole(action) {
   const params = getRoleNameWithRolePolicyParam(action.params);
-  const client = getClient(action, settings);
+  const client = getClient(action);
   return new Promise((resolve, reject) => {
     client.createRole(params, getAwsCallback(resolve, reject));
   });
 }
 
-function deleteAccessKey(action, settings) {
-  const accessKeyId = (action.params.ACCESS_KEY_ID || "").trim();
-  const userName = (action.params.USER_NAME || "").trim();
+function deleteAccessKey(action) {
+  const targetAccessKeyId = (action.params.targetAccessKeyId || "").trim();
+  const userName = (action.params.userName || "").trim();
 
-  if (!accessKeyId || !userName) {
+  if (!targetAccessKeyId || !userName) {
     throw new Error("Not given one of required fields");
   }
 
   const params = {
     UserName: userName,
-    AccessKeyId: accessKeyId,
+    AccessKeyId: targetAccessKeyId,
   };
 
-  const client = getClient(action, settings);
+  const client = getClient(action);
   return new Promise((resolve, reject) => {
     client.deleteAccessKey(params, getAwsCallback(resolve, reject));
   });
 }
 
-function deleteUser(action, settings) {
+function deleteUser(action) {
   const params = getUsernameParam(action.params);
-  const client = getClient(action, settings);
+  const client = getClient(action);
   return new Promise((resolve, reject) => {
     client.deleteUser(params, getAwsCallback(resolve, reject));
   });
 }
 
-async function deleteExpiredRole(action, settings) {
+async function deleteExpiredRole(action) {
   const payload = { RoleName: action.params.roleName };
-  const client = getClient(action, settings);
-  const roleData = await getRole(action, settings);
+  const client = getClient(action);
+  const roleData = await getRole(action);
 
   let expiryTag = null;
   if (roleData && roleData.Role && roleData.Role.Tags && Array.isArray(roleData.Role.Tags)) {
@@ -65,64 +65,64 @@ async function deleteExpiredRole(action, settings) {
   return client.deleteRole(payload).promise();
 }
 
-function deleteRole(action, settings) {
+function deleteRole(action) {
   const payload = { RoleName: action.params.roleName };
-  const client = getClient(action, settings);
+  const client = getClient(action);
   return new Promise((resolve, reject) => {
     client.deleteRole(payload, getAwsCallback(resolve, reject));
   });
 }
 
-function getRole(action, settings) {
+function getRole(action) {
   const payload = { RoleName: action.params.roleName };
-  const client = getClient(action, settings);
+  const client = getClient(action);
   return new Promise((resolve, reject) => {
     client.getRole(payload, getAwsCallback(resolve, reject));
   });
 }
 
-function updateAccessKey(action, settings) {
-  const params = getAwsUpdateParams(action.params, "accessKeyId", "AccessKeyId");
-  const client = getClient(action, settings);
+function updateAccessKey(action) {
+  const params = getAwsUpdateParams(action.params, "targetAccessKeyId", "AccessKeyId");
+  const client = getClient(action);
   return new Promise((resolve, reject) => {
     client.updateAccessKey(params, getAwsCallback(resolve, reject));
   });
 }
 
-function updateSSHPublicKey(action, settings) {
+function updateSSHPublicKey(action) {
   const params = getAwsUpdateParams(action.params, "sshId", "SSHPublicKeyId");
-  const client = getClient(action, settings);
+  const client = getClient(action);
   return new Promise((resolve, reject) => {
     client.updateSSHPublicKey(params, getAwsCallback(resolve, reject));
   });
 }
 
-function listAccessKeys(action, settings) {
+function listAccessKeys(action) {
   const params = getUsernameParam(action.params);
-  const client = getClient(action, settings);
+  const client = getClient(action);
   return new Promise((resolve, reject) => {
     client.listAccessKeys(params, getAwsCallback(resolve, reject));
   });
 }
 
-function listRoles(action, settings) {
+function listRoles(action) {
   const params = getPathPrefixParam(action.params);
-  const client = getClient(action, settings);
+  const client = getClient(action);
   return new Promise((resolve, reject) => {
     client.listRoles(params, getAwsCallback(resolve, reject));
   });
 }
 
-function listUsers(action, settings) {
-  const client = getClient(action, settings);
+function listUsers(action) {
+  const client = getClient(action);
   return new Promise((resolve, reject) => {
     client.listUsers({}, getAwsCallback(resolve, reject));
   });
 }
 
-function getAccessKeyLastUsed(action, settings) {
-  const params = { AccessKeyId: action.params.accessKeyId };
-  const client = getClient(action, settings);
+function getAccessKeyLastUsed(action) {
+  const params = { AccessKeyId: action.params.targetAccessKeyId };
+  const client = getClient(action);
   return new Promise((resolve, reject) => {
     client.getAccessKeyLastUsed(params, getAwsCallback(resolve, reject));
   });

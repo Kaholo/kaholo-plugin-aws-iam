@@ -1,48 +1,71 @@
 {
   "name": "Amazon-aws-iam",
+  "viewName": "AWS IAM",
   "type": "executer",
   "imgUrl": "logo.png",
   "execProgram": "node",
   "main": "app.js",
   "version": "1.1.3",
-  "description":"Integration with AWS IAM Service",
-  "category": ["CLOUD", "ACCESS MGMT"],
-  "settings":[
-    {
-      "name":"AWS_ACCESS_KEY_ID",
-      "viewName": "Access key ID",
-      "type": "vault"
-    },
-    {
-      "name": "AWS_SECRET_ACCESS_KEY",
-      "viewName": "Secret Access key",
-      "type": "vault"
-    }
+  "description":"Amazon Identity and Access Mgmt - control access to AWS resources",
+  "category": "Cloud Management",
+  "keywords": [
+    "aws",
+    "amazon",
+    "identity",
+    "iam",
+    "access keys",
+    "keys",
+    "secret keys",
+    "ssh keys",
+    "users",
+    "account",
+    "activate",
+    "deactivate",
+    "security"
   ],
+  "auth": {
+    "authId": "awsAccount",
+    "params": [
+      {
+        "name": "accessKeyId",
+        "viewName": "Access Key ID",
+        "type": "vault",
+        "required": true,
+        "description": "AWS Access Key ID to use for authentication",
+        "placeholder": "AKIAIOSFODNN7EXAMPLE",
+        "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+      },
+      {
+        "name": "secretAccessKey",
+        "viewName": "Secret Access Key",
+        "type": "vault",
+        "required": true,
+        "description": "AWS Secret Access Key to use for authentication",
+        "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+        "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+      }
+    ]
+  },
   "methods": [
     {
       "name": "deleteAccessKey",
       "viewName": "Delete Access Key",
       "params": [
         {
-          "name": "AWS_ACCESS_KEY_ID",
-          "viewName": "Auth Access Key ID",
-          "type": "vault"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "viewName": "Secret Access key",
-          "type": "vault"
-        },
-        {
-          "name": "ACCESS_KEY_ID",
-          "viewName": "Access key Id",
-          "type": "string"
-        },
-        {
-          "name": "USER_NAME",
+          "name": "userName",
           "viewName": "User Name",
-          "type": "string"
+          "description": "The name of the user who owns the key",
+          "type": "string",
+          "required": true,
+          "placeholder": "awsuser"
+        },
+        {
+          "name": "targetAccessKeyId",
+          "viewName": "Access Key ID",
+          "description": "The ID of the key to DELETE",
+          "type": "string",
+          "required": true,
+          "placeholder": "AKIAIOSFODNN7EXAMPLE"
         }
       ]
     },
@@ -51,50 +74,41 @@
       "viewName": "Delete User",
       "params": [
         {
-          "name": "AWS_ACCESS_KEY_ID",
-          "viewName": "Access Key ID",
-          "type": "vault"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "viewName": "Secret Access Key",
-          "type": "vault"
-        },
-        {
           "name": "userName",
           "viewName": "User Name",
-          "type": "string"
+          "description": "The name of the user to DELETE",
+          "type": "string",
+          "required": true,
+          "placeholder": "awsuser"
         }
       ]
     },
     {
       "name": "updateAccessKey",
-      "viewName": "Update Access Key",
+      "viewName": "Activate/Deactivate Access Key",
       "params": [
-        {
-          "name": "AWS_ACCESS_KEY_ID",
-          "viewName": "Auth Access key ID",
-          "type": "vault"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "viewName": "Secret Access Key",
-          "type": "vault"
-        },
         {
           "name": "userName",
           "viewName": "User Name",
-          "type": "string"
+          "description": "The name of the user who owns the key",
+          "type": "string",
+          "required": true,
+          "placeholder": "awsuser"
         },
         {
-          "name": "accessKeyId",
-          "viewName": "Access key Id",
-          "type": "string"
+          "name": "targetAccessKeyId",
+          "viewName": "Access Key ID",
+          "description": "The ID of the access key to activate or deactivate",
+          "type": "string",
+          "required": true,
+          "placeholder": "AKIAIOSFODNN7EXAMPLE"
         },
         {
           "name": "status",
-          "viewName": "Status",
+          "viewName": "Status To Set",
           "type": "options",
+          "default": "Inactive",
+          "placeholder": "Please select one",
           "options": [
             {
               "id":"Active",
@@ -110,32 +124,30 @@
     },
     {
       "name": "updateSSHPublicKey",
-      "viewName": "Update SSH Public Key",
+      "viewName": "Activate/Deactivate SSH Public Key",
       "params": [
-        {
-          "name": "AWS_ACCESS_KEY_ID",
-          "viewName": "Access Key ID",
-          "type": "vault"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "viewName": "Secret Access Key",
-          "type": "vault"
-        },
         {
           "name": "userName",
           "viewName": "User Name",
-          "type": "string"
+          "description": "The name of the user who owns the SSH key",
+          "type": "string",
+          "required": true,
+          "placeholder": "awsuser"
         },
         {
           "name": "sshId",
           "viewName": "SSH Public Key ID",
-          "type": "string"
+          "description": "The ID of the SSH key to activate or deactivate",
+          "type": "string",
+          "required": true,
+          "placeholder": "APKA3LQJ67DUZEXAMPLE"
         },
         {
           "name": "status",
-          "viewName": "Status",
+          "viewName": "Status To Set",
           "type": "options",
+          "default": "Inactive",
+          "placeholder": "Please select one",
           "options": [
             {
               "id":"Active",
@@ -154,57 +166,31 @@
       "viewName": "List Access Keys",
       "params": [
         {
-          "name": "AWS_ACCESS_KEY_ID",
-          "viewName": "Access Key ID",
-          "type": "vault"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "viewName": "Secret Access Key",
-          "type": "vault"
-        },
-        {
           "name": "userName",
           "viewName": "User Name",
-          "type": "string"
+          "description": "The name of the user whose access keys will be listed",
+          "type": "string",
+          "required": true,
+          "placeholder": "awsuser"
         }
       ]
     },
     {
       "name": "listUsers",
       "viewName": "List Users",
-      "params": [
-        {
-          "name": "AWS_ACCESS_KEY_ID",
-          "viewName": "Access Key ID",
-          "type": "vault"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "viewName": "Secret Access Key",
-          "type": "vault"
-        }
-      ]
+      "params": []
     },
     {
       "name": "getAccessKeyLastUsed",
-      "viewName": "Last Used Access Key",
+      "viewName": "Get Access Key Last Used Time",
       "params": [
         {
-          "name": "AWS_ACCESS_KEY_ID",
+          "name": "targetAccessKeyId",
           "viewName": "Access Key ID",
-          "type": "vault"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "viewName": "Secret Access Key",
-          "type": "vault"
-        },
-        {
-          "name": "accessKeyId",
-          "viewName": "Access key Id",
+          "description": "The ID of the key for which to get last used time",
           "type": "string",
-          "required": true
+          "required": true,
+          "placeholder": "AKIAIOSFODNN7EXAMPLE"
         }
       ]
     }
