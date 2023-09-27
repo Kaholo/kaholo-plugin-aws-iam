@@ -1,3 +1,6 @@
+# Kaholo AWS IAM Plugin
+AWS Identity and Access Management (IAM) is used to specify who or what can access services and resources in AWS, centrally manage fine-grained permissions, and analyze access to refine permissions across AWS. This plugin extends Kaholo's capability to include managing IAM configuration.
+
 ## Access and Authentication
 AWS uses two parameters for access and authentication, these are stored in the Kaholo Vault and configured via a Kaholo Account.
 * Access Key ID, e.g. `AKIA3LQJ67DU53G3DNEW`
